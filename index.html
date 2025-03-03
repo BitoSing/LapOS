@@ -36,14 +36,21 @@
             font-weight: bold;
         }
 
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
         .header-buttons button {
             background-color: #555;
             color: white;
             border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
+            padding: 10px;
             cursor: pointer;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .header-buttons button:hover {
@@ -64,16 +71,11 @@
             color: #f4f4f4;
         }
 
-        .description {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         .buttons {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .buttons button {
@@ -87,6 +89,10 @@
 
         .buttons button:hover {
             background-color: #777;
+        }
+
+        .description {
+            text-align: center;
         }
 
         footer {
@@ -108,15 +114,11 @@
     <header>
         <div class="logo">Logo</div>
         <div class="header-buttons">
-            <button id="changeLanguage">Change Language</button>
-            <button id="toggleDarkMode">Enable Dark Mode</button>
+            <button id="changeLanguage" title="Change Language">🌐</button>
+            <button id="toggleDarkMode" title="Toggle Dark Mode">🌙</button>
         </div>
     </header>
     <main>
-        <section class="description">
-            <h1>Description A</h1>
-            <p>This is a professional webpage designed based on the provided wireframe. It features a clean layout with a header containing a logo and navigation buttons, followed by a main content area.</p>
-        </section>
         <div class="buttons">
             <button>Button A</button>
             <button>Button B</button>
@@ -124,27 +126,57 @@
             <button>Button D</button>
             <button>Button E</button>
         </div>
+        <section class="description">
+            <h1 id="descriptionTitle">Description A</h1>
+            <p id="descriptionText">This is a professional webpage designed based on the provided wireframe. It features a clean layout with a header containing a logo and navigation buttons, followed by a main content area.</p>
+        </section>
     </main>
     <footer>
-        <p>&copy; 2023 Professional Webpage. All rights reserved.</p>
+        <p id="footerText">&copy; 2023 Professional Webpage. All rights reserved.</p>
     </footer>
 
     <script>
+        // Language Translation
+        const languageButton = document.getElementById('changeLanguage');
+        const descriptionTitle = document.getElementById('descriptionTitle');
+        const descriptionText = document.getElementById('descriptionText');
+        const footerText = document.getElementById('footerText');
+
+        const translations = {
+            en: {
+                title: "Description A",
+                description: "This is a professional webpage designed based on the provided wireframe. It features a clean layout with a header containing a logo and navigation buttons, followed by a main content area.",
+                footer: "&copy; 2023 Professional Webpage. All rights reserved."
+            },
+            km: {
+                title: "ការពិពណ៌នា A",
+                description: "នេះគឺជាគេហទំព័រវិជ្ជាជីវៈដែលបានរចនាឡើងដោយផ្អែកលើរូបភាពខ្សែដែលបានផ្តល់ឱ្យ។ វាមានប្លង់ស្អាតជាមួយនឹងក្បាលដែលមានផ្ទាំងនិងប៊ូតុងរុករកបន្ទាប់ពីតំបន់មាតិកាមេ។",
+                footer: "&copy; ២០២៣ គេហទំព័រវិជ្ជាជីវៈ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        languageButton.addEventListener('click', () => {
+            currentLanguage = currentLanguage === 'en' ? 'km' : 'en';
+            descriptionTitle.textContent = translations[currentLanguage].title;
+            descriptionText.textContent = translations[currentLanguage].description;
+            footerText.innerHTML = translations[currentLanguage].footer;
+        });
+
+        // Dark Mode Toggle
         const toggleDarkModeButton = document.getElementById('toggleDarkMode');
         const body = document.body;
 
         toggleDarkModeButton.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             if (body.classList.contains('dark-mode')) {
-                toggleDarkModeButton.textContent = 'Enable Light Mode';
+                toggleDarkModeButton.textContent = '☀️';
+                toggleDarkModeButton.setAttribute('title', 'Enable Light Mode');
             } else {
-                toggleDarkModeButton.textContent = 'Enable Dark Mode';
+                toggleDarkModeButton.textContent = '🌙';
+                toggleDarkModeButton.setAttribute('title', 'Enable Dark Mode');
             }
-        });
-
-        const changeLanguageButton = document.getElementById('changeLanguage');
-        changeLanguageButton.addEventListener('click', () => {
-            alert('Language change functionality to be implemented.');
         });
     </script>
 </body>
