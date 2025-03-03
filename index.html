@@ -34,12 +34,14 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
+            margin-left: 20px; /* Added margin */
         }
 
         .header-buttons {
             display: flex;
             gap: 10px;
             align-items: center;
+            margin-right: 20px; /* Added margin */
         }
 
         .header-buttons select,
@@ -103,7 +105,6 @@
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 10px 0;
             position: fixed;
             bottom: 0;
         }
@@ -152,18 +153,30 @@
                 padding: 8px;
             }
         }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">Logo</div>
-        <div class="header-buttons">
+        <nav class="header-buttons">
+            <label for="languageSelect" class="visually-hidden">Select Language</label>
             <select id="languageSelect" title="Select Language">
                 <option value="en">English</option>
                 <option value="km">Khmer</option>
             </select>
             <button id="toggleDarkMode" title="Toggle Dark Mode">🌙</button>
-        </div>
+        </nav>
     </header>
     <main>
         <div class="buttons">
@@ -181,7 +194,6 @@
     <footer>
         <p id="footerText">&copy; 2023 Professional Webpage. All rights reserved.</p>
     </footer>
-
     <script>
         // Language Translation
         const languageSelect = document.getElementById('languageSelect');
