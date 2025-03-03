@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-buttons button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .header-buttons button:hover {
+            background-color: #777;
+        }
+
+        main {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode main {
+            background-color: #444;
+            color: #f4f4f4;
+        }
+
+        .description {
+            text-align: center;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+        }
+
+        body.dark-mode footer {
+            background-color: #222;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <div class="header-buttons">
+            <button id="changeLanguage">Change Language</button>
+            <button id="toggleDarkMode">Enable Dark Mode</button>
+        </div>
+    </header>
+    <main>
+        <section class="description">
+            <h1>Description A</h1>
+            <p>This is a professional webpage designed based on the provided wireframe. It features a clean layout with a header containing a logo and navigation buttons, followed by a main content area.</p>
+        </section>
+        <div class="body-buttons">
+            <button>Button A</button>
+            <button>Button B</button>
+            <button>Button C</button>
+            <button>Button D</button>
+            <button>Button E</button>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Professional Webpage. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+        const body = document.body;
+
+        toggleDarkModeButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                toggleDarkModeButton.textContent = 'Enable Light Mode';
+            } else {
+                toggleDarkModeButton.textContent = 'Enable Dark Mode';
+            }
+        });
+
+        const changeLanguageButton = document.getElementById('changeLanguage');
+        changeLanguageButton.addEventListener('click', () => {
+            alert('Language change functionality to be implemented.');
+        });
+    </script>
+</body>
+</html>
