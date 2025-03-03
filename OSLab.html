@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A professional webpage with a clean layout, dark mode, and language selection.">
+    <title>Professional Webpage</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Khmer+OS+Siemreap&display=swap');
+
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            justify-content: space-between;
+        }
+
+        body.khmer {
+            font-family: 'Khmer OS Siemreap', sans-serif;
+        }
+
+        body.dark-mode {
+            background-color: #1e1e1e;
+            color: #f4f4f4;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px 15px 20px; /* Add padding to the right */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ecf0f1;
+            margin-left: 20px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-right: 20px; /* Add margin to the right */
+        }
+
+        .header-buttons select,
+        .header-buttons button {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-buttons select:hover,
+        .header-buttons button:hover {
+            background-color: #4a6a8d;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Main Content */
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 0px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        body.dark-mode main {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Buttons Section */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .buttons button:active {
+            background-color: #1f6391;
+            transform: translateY(0);
+        }
+
+        .buttons button.khmer {
+            font-family: 'Khmer OS Siemreap', sans-serif;
+            font-size: 14px;
+        }
+
+        /* Description Section */
+        .description {
+            text-align: center;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        body.dark-mode .description {
+            background-color: #34495e;
+        }
+
+        .description h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .description h1 {
+            color: #ecf0f1;
+        }
+
+        .description p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        body.dark-mode .description p {
+            color: #ecf0f1;
+        }
+        
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode footer {
+            background-color: #1e1e1e;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .header-buttons {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            main {
+                width: 95%;
+                margin: 10px 0;
+                padding: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .buttons button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .description h1 {
+                font-size: 24px;
+            }
+
+            .description p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-buttons {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            main {
+                width: 95%;
+                margin: 10px 0;
+                padding: 15px;
+            }
+
+            .buttons button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+
+            .header-buttons select,
+            .header-buttons button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+
+            .buttons button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            .description h1 {
+                font-size: 22px;
+            }
+
+            .description p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+            }
+
+            .header-buttons select,
+            .header-buttons button {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .buttons button {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            .description h1 {
+                font-size: 20px;
+            }
+
+            .description p {
+                font-size: 12px;
+            }
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .language-select-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .language-select-container label {
+            font-size: 16px;
+            color: white;
+        }
+
+        .language-select-container select {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .language-select-container select:hover {
+            background-color: #4a6a8d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">OSLab</div>
+        <nav class="header-buttons">
+            <div class="language-select-container">
+                <label for="languageSelect">Select Language:</label>
+                <select id="languageSelect" title="Select Language">
+                    <option value="en">English</option>
+                    <option value="km">Khmer</option>
+                </select>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+            </label>
+        </nav>
+    </header>
+    <div class="buttons">
+        <a href="Calculations.html"><button data-description-en="Calculations Page" data-description-km="ទំព័រគណនា">Calculations</button></a>
+        <a href="FollowUpStatus.html"><button data-description-en="Follow Up Status Page" data-description-km="ទំព័រដំណើរការតាមដាន">Follow Up Status</button></a>
+        <a href="MessageReminder.html"><button data-description-en="Message Reminder Page" data-description-km="ទំព័ររំលឹកសារ">Message Reminder</button></a>
+        <a href="PromotionCode.html"><button data-description-en="Promotion Code Page" data-description-km="ទំព័រកូដផ្សព្វផ្សាយ">Promotion Code</button></a>
+    </div>
+    <main>
+        <section class="description">
+            <h1 id="descriptionTitle">Welcome to OSLab</h1>
+            <p id="descriptionText">In this OSLab, we will provide you the link of neccessaries as button.</p>
+        </section>
+    </main>
+    <footer>
+        <p id="footerText">&copy; 2023 Professional Webpage. All rights reserved.</p>
+    </footer>
+    <script>
+        // Language Translation
+        const languageSelect = document.getElementById('languageSelect');
+        const descriptionTitle = document.getElementById('descriptionTitle');
+        const descriptionText = document.getElementById('descriptionText');
+        const footerText = document.getElementById('footerText');
+        const buttons = document.querySelectorAll('.buttons button');
+
+        const translations = {
+            en: {
+                title: "Welcome to OSLab",
+                description: "In this OSLab, we will provide you the link of neccessaries as button.",
+                footer: "&copy; 2023 Professional Webpage. All rights reserved."
+            },
+            km: {
+                title: "សូមស្វាគមន៍មកកាន់ OSLab",
+                description: "នៅក្នុង OSLab នេះ យើងនឹងផ្តល់ឱ្យអ្នកនូវតំណភ្ជាប់នៃការចាំបាច់ជាប៊ូតុង។",
+                footer: "&copy; ២០២៣ គេហទំព័រវិជ្ជាជីវៈ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។"
+            }
+        };
+
+        function updateTranslations() {
+            const selectedLanguage = languageSelect.value;
+            descriptionTitle.textContent = translations[selectedLanguage].title;
+            descriptionText.textContent = translations[selectedLanguage].description;
+            footerText.innerHTML = translations[selectedLanguage].footer;
+
+            buttons.forEach(button => {
+                button.textContent = button.getAttribute(`data-description-${selectedLanguage}`);
+                if (selectedLanguage === 'km') {
+                    button.classList.add('khmer');
+                } else {
+                    button.classList.remove('khmer');
+                }
+            });
+
+            if (selectedLanguage === 'km') {
+                document.body.classList.add('khmer');
+            } else {
+                document.body.classList.remove('khmer');
+            }
+        }
+
+        languageSelect.addEventListener('change', updateTranslations);
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode', darkModeToggle.checked);
+        });
+
+        // Initial translation update
+        updateTranslations();
+    </script>
+</body>
+</html>

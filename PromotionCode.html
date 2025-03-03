@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotion Code</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            flex: 1;
+        }
+
+        .result-container {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-group select,
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="number"],
+        .form-group textarea {
+            flex: 2;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        select,
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus,
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #5cb85c;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        .result {
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-left: 4px solid #5cb85c;
+            border-radius: 4px;
+            color: #333;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            box-sizing: border-box;
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+        }
+
+        #clearData {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #clearData:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 10px;
+            }
+
+            .form-container,
+            .result-container {
+                width: 100%;
+            }
+
+            .result {
+                max-height: 200px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input[type="number"]::before {
+            content: "$";
+            margin-right: 2px;
+        }
+
+        .footer {
+            font-style: italic;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .back-button:active {
+            background-color: #1f6391;
+            transform: translateY(0);
+        }
+
+        .back-button svg {
+            margin-right: 8px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: center; /* Ensure buttons are vertically aligned */
+        }
+        .button-container button, .button-container .back-button {
+            padding: 12px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            flex: 1 1 auto;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .button-container button:hover, .button-container .back-button:hover {
+            background-color: #4cae4c;
+        }
+        .button-container .back-button {
+            background-color: #3498db;
+        }
+        .button-container .back-button:hover {
+            background-color: #2980b9;
+        }
+        .button-container .back-button svg {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 id="pageTitle">Promotion Code</h1>
+            <form id="promotionForm">
+                <!-- Option -->
+                <div class="form-group">
+                    <label for="option">Option:</label>
+                    <select id="option" name="option">
+                        <option value="With Promotion">With Promotion</option>
+                        <option value="None Promotion">None Promotion</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic Form for "With Promotion" -->
+                <div id="withPromotionForm">
+                    <!-- Product -->
+                    <div class="form-group">
+                        <label for="product">Product:</label>
+                        <select id="product" name="product">
+                            <option value="EzeSurf">EzeSurf</option>
+                            <option value="MegaSurf">MegaSurf</option>
+                            <option value="DIA">DIA</option>
+                        </select>
+                    </div>
+
+                    <!-- Subscription Plan -->
+                    <div class="form-group">
+                        <label for="subscription">Subscription Plan:</label>
+                        <select id="subscription" name="subscription" size="1">
+                            <!-- Options will be dynamically populated based on the selected product -->
+                        </select>
+                    </div>
+
+                    <!-- Promotion Code -->
+                    <div class="form-group">
+                        <label for="promotion_code">Promotion Code:</label>
+                        <select id="promotion_code" name="promotion_code">
+                            <option value="In-Advance Promotion">In-Advance Promotion</option>
+                            <option value="On-Time Promotion">On-Time Promotion</option>
+                            <option value="Last Choice Promotion">Last Choice Promotion</option>
+                        </select>
+                    </div>
+
+                    <!-- Dynamic Dropdown for Promotion Details -->
+                    <div class="form-group">
+                        <label for="promotion_details">Promotion Details:</label>
+                        <select id="promotion_details" name="promotion_details">
+                            <!-- Options will be dynamically populated based on the selected promotion code -->
+                        </select>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="text" id="phone_number" name="phone_number" placeholder="Example: 012345678">
+                    </div>
+
+                    <!-- Start Charge Date -->
+                    <div class="form-group">
+                        <label for="start_charge_date">Start Charge Date:</label>
+                        <input type="date" id="start_charge_date" name="start_charge_date" value="2025-09-06">
+                    </div>
+
+                    <!-- Amount (User input) -->
+                    <div class="form-group">
+                        <label for="amount">Amount (Inc.VAT):</label>
+                        <input type="number" id="amount" name="amount">
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" placeholder="Example: Enter your description here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- None Promotion Page -->
+                <div id="nonePromotionForm" class="hidden">
+                    <!-- Product -->
+                    <div class="form-group">
+                        <label for="product_none">Product:</label>
+                        <select id="product_none" name="product_none">
+                            <option value="EzeSurf">EzeSurf</option>
+                            <option value="MegaSurf">MegaSurf</option>
+                            <option value="DIA">DIA</option>
+                        </select>
+                    </div>
+
+                    <!-- Subscription Plan -->
+                    <div class="form-group">
+                        <label for="subscription_none">Subscription Plan:</label>
+                        <select id="subscription_none" name="subscription_none" size="1">
+                            <!-- Options will be dynamically populated based on the selected product -->
+                        </select>
+                    </div>
+
+                    <!-- Promotion Code -->
+                    <div class="form-group">
+                        <label for="promotion_code_none">Promotion Code:</label>
+                        <select id="promotion_code_none" name="promotion_code_none">
+                            <option value="In-Advance Promotion">In-Advance Promotion</option>
+                            <option value="On-Time Promotion">On-Time Promotion</option>
+                            <option value="Last Choice Promotion">Last Choice Promotion</option>
+                        </select>
+                    </div>
+
+                    <!-- Promotion Type -->
+                    <div class="form-group">
+                        <label for="promotion_type">Promotion Type:</label>
+                        <select id="promotion_type" name="promotion_type">
+                            <option value="Free Month">Free Month</option>
+                            <option value="Discount $">Discount $</option>
+                            <option value="Discount %">Discount %</option>
+                        </select>
+                    </div>
+
+                    <!-- Month Renew and Free Month (Visible only for Free Month) -->
+                    <div class="form-group hidden" id="monthRenewGroup">
+                        <label for="month_renew_none">Month Renew:</label>
+                        <input type="number" id="month_renew_none" name="month_renew_none" placeholder="Enter Month Renew">
+                    </div>
+
+                    <div class="form-group hidden" id="freeMonthGroup">
+                        <label for="free_month_none">Free Month:</label>
+                        <input type="number" id="free_month_none" name="free_month_none" placeholder="Enter Free Month">
+                    </div>
+
+                    <!-- Discount $ (Visible only for Discount $) -->
+                    <div class="form-group hidden" id="discountDollarGroup">
+                        <label for="discount_dollar">Discount $:</label>
+                        <input type="number" id="discount_dollar" name="discount_dollar" placeholder="Enter Discount $">
+                    </div>
+
+                    <!-- Discount % (Visible only for Discount %) -->
+                    <div class="form-group hidden" id="discountPercentGroup">
+                        <label for="discount_percent">Discount %:</label>
+                        <input type="number" id="discount_percent" name="discount_percent" placeholder="Enter Discount %">
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label for="phone_number_none">Phone Number:</label>
+                        <input type="text" id="phone_number_none" name="phone_number_none" placeholder="Example: 012345678">
+                    </div>
+
+                    <!-- Start Charge Date -->
+                    <div class="form-group">
+                        <label for="start_charge_date_none">Start Charge Date:</label>
+                        <input type="date" id="start_charge_date_none" name="start_charge_date_none" value="2025-09-06">
+                    </div>
+
+                    <!-- End Date/Expiry Date -->
+                    <div class="form-group hidden" id="endDateGroup">
+                        <label for="end_date_none">End Date/Expiry Date:</label>
+                        <input type="text" id="end_date_none" name="end_date_none" readonly>
+                    </div>
+
+                    <!-- Amount (Auto-calculated) -->
+                    <div class="form-group">
+                        <label for="amount_none">Amount (Inc.VAT):</label>
+                        <input type="number" id="amount_none" name="amount_none" readonly>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description_none">Description:</label>
+                        <textarea id="description_none" name="description_none" placeholder="Example: Enter your description here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="button-container">
+                    <button type="submit">Add</button>
+                    <a href="OSLab.html" class="back-button">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 8H1M1 8L8 1M1 8L8 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Back to OSLab
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Stored Data -->
+        <div class="result-container">
+            <h3>Stored Data:</h3>
+            <div class="result" id="result"></div>
+            <button id="clearData">Clear Stored Data</button>
+        </div>
+    </div>
+
+    <script>
+        // Cache DOM elements
+        const option = document.getElementById('option');
+        const withPromotionForm = document.getElementById('withPromotionForm');
+        const nonePromotionForm = document.getElementById('nonePromotionForm');
+        const pageTitle = document.getElementById('pageTitle');
+        const product = document.getElementById('product');
+        const subscription = document.getElementById('subscription');
+        const productNone = document.getElementById('product_none');
+        const subscriptionNone = document.getElementById('subscription_none');
+        const promotionCode = document.getElementById('promotion_code');
+        const promotionDetails = document.getElementById('promotion_details');
+        const promotionType = document.getElementById('promotion_type');
+        const monthRenewGroup = document.getElementById('monthRenewGroup');
+        const freeMonthGroup = document.getElementById('freeMonthGroup');
+        const discountDollarGroup = document.getElementById('discountDollarGroup');
+        const discountPercentGroup = document.getElementById('discountPercentGroup');
+        const monthRenewNone = document.getElementById('month_renew_none');
+        const freeMonthNone = document.getElementById('free_month_none');
+        const discountDollar = document.getElementById('discount_dollar');
+        const discountPercent = document.getElementById('discount_percent');
+        const startChargeDate = document.getElementById('start_charge_date');
+        const endDateField = document.getElementById('end_date');
+        const amountField = document.getElementById('amount');
+        const amountNoneField = document.getElementById('amount_none');
+        const form = document.getElementById('promotionForm');
+        const storedDataDiv = document.getElementById('result');
+        const clearDataButton = document.getElementById('clearData');
+
+        // Load JSON data
+        fetch('path/to/data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Store the JSON data
+                const jsonData = data;
+
+                // Function to populate subscription plans based on selected product
+                function populateSubscriptionPlans(selectedProduct, subscriptionElement) {
+                    const plans = jsonData.filter(item => item.product === selectedProduct);
+                    subscriptionElement.innerHTML = plans.map(plan => `
+                        <option value="${plan.price}">${plan.subscriptionPlan} - $${plan.price}</option>
+                    `).join('');
+                }
+
+                // Populate subscription plans on page load
+                populateSubscriptionPlans(product.value, subscription);
+                populateSubscriptionPlans(productNone.value, subscriptionNone);
+
+                // Event listeners
+                product.addEventListener('change', () => populateSubscriptionPlans(product.value, subscription));
+                productNone.addEventListener('change', () => populateSubscriptionPlans(productNone.value, subscriptionNone));
+            });
+
+        // Subscription plans data
+        const subscriptionPlans = {
+            EzeSurf: [
+                { name: "EzeSurf - 3M", price: "13.64" },
+                { name: "EzeSurf Lite-10M", price: "13.64" },
+                { name: "EzeSurf - 6M", price: "24.55" },
+                { name: "EzeSurf Plus-6M (Static IP)", price: "16.36" }
+            ],
+            MegaSurf: [
+                { name: "MegaSurf - 30Mb (Static IP)", price: "16.36" },
+                { name: "MegaSurf - 50Mb (Static IP)", price: "26.36" },
+                { name: "MegaSurf - 100Mb (Static IP)", price: "44.55" },
+                { name: "MegaSurf - 150Mb (Static IP)", price: "62.73" },
+                { name: "MegaSurf - 200M", price: "80.91" }
+            ],
+            DIA: [
+                { name: "DIA Pro 1 - 5Mbps", price: "130.00" },
+                { name: "DIA Pro 1 - 10Mbps", price: "160.00" },
+                { name: "DIA Pro 1 - 15Mbps", price: "195.00" }
+            ]
+        };
+
+        // Promotion details data
+        const promotionDetailsData = {
+            "In-Advance Promotion": [
+                "3 + 2 months",
+                "4 + 2 months",
+                "5 + 2 months",
+                "6 + 3 months",
+                "7 + 3 months",
+                "8 + 3 months",
+                "12 + 5 months",
+                "13 + 5 months",
+                "14 + 5 months"
+            ],
+            "On-Time Promotion": [
+                "6 + 1 months",
+                "12 + 3 months",
+                "18 + 5 months",
+                "24 + 8 months"
+            ],
+            "Last Choice Promotion": []
+        };
+
+        // Function to toggle forms based on selected option
+        function toggleForms() {
+            if (option.value === "With Promotion") {
+                withPromotionForm.classList.remove('hidden');
+                nonePromotionForm.classList.add('hidden');
+                pageTitle.textContent = "With Promotion";
+            } else {
+                withPromotionForm.classList.add('hidden');
+                nonePromotionForm.classList.remove('hidden');
+                pageTitle.textContent = "None Promotion";
+            }
+        }
+
+        // Function to populate subscription plans based on selected product
+        function populateSubscriptionPlans(selectedProduct, subscriptionElement) {
+            const plans = subscriptionPlans[selectedProduct];
+            subscriptionElement.innerHTML = plans.map(plan => `
+                <option value="${plan.price}">${plan.name} - $${plan.price}</option>
+            `).join('');
+        }
+
+        // Function to populate promotion details based on selected promotion code
+        function populatePromotionDetails(selectedPromotionCode) {
+            const details = promotionDetailsData[selectedPromotionCode];
+            promotionDetails.innerHTML = details.map(detail => `
+                <option value="${detail}">${detail}</option>
+            `).join('');
+        }
+
+        // Function to toggle visibility of fields in "None Promotion" page
+        function togglePromotionTypeFields() {
+            const selectedPromotionType = promotionType.value;
+            monthRenewGroup.classList.add('hidden');
+            freeMonthGroup.classList.add('hidden');
+            discountDollarGroup.classList.add('hidden');
+            discountPercentGroup.classList.add('hidden');
+
+            if (selectedPromotionType === "Free Month") {
+                monthRenewGroup.classList.remove('hidden');
+                freeMonthGroup.classList.remove('hidden');
+                freeMonthGroup.querySelector('label').textContent = "Free Month";
+            } else if (selectedPromotionType === "Discount $") {
+                discountDollarGroup.classList.remove('hidden');
+                monthRenewGroup.classList.remove('hidden'); // Show Month Renew section
+                freeMonthGroup.classList.add('hidden'); // Hide Free Month section
+            } else if (selectedPromotionType === "Discount %") {
+                discountPercentGroup.classList.remove('hidden');
+                monthRenewGroup.classList.remove('hidden'); // Show Month Renew section
+                freeMonthGroup.classList.add('hidden'); // Hide Free Month section
+            }
+        }
+
+        // Function to calculate amount for "With Promotion"
+        function calculateWithPromotionAmount() {
+            const subscriptionPrice = parseFloat(subscription.value);
+            const promotionDetail = promotionDetails.value;
+            const [monthsRenew, freeMonths] = promotionDetail.split(" + ").map(Number);
+            const amount = (subscriptionPrice * monthsRenew * 1.1).toFixed(2); // 10% tax
+            amountField.value = amount;
+        }
+
+        // Function to calculate amount for "None Promotion"
+        function calculateNonePromotionAmount() {
+            const subscriptionPrice = parseFloat(subscriptionNone.value);
+            let amount = subscriptionPrice;
+            const selectedPromotionType = promotionType.value;
+
+            if (selectedPromotionType === "Free Month") {
+                const monthsRenew = parseFloat(monthRenewNone.value) || 0;
+                amount = (subscriptionPrice * monthsRenew * 1.1).toFixed(2); // 10% tax
+            } else if (selectedPromotionType === "Discount $") {
+                const discount = parseFloat(discountDollar.value) || 0;
+                const monthsRenew = parseFloat(monthRenewNone.value) || 0;
+                amount = (subscriptionPrice * monthsRenew - discount).toFixed(2);
+            } else if (selectedPromotionType === "Discount %") {
+                const discount = parseFloat(discountPercent.value) || 0;
+                const monthsRenew = parseFloat(monthRenewNone.value) || 0;
+                amount = (subscriptionPrice * monthsRenew * (1 - discount / 100) * 1.1).toFixed(2); // 10% tax
+            }
+
+            amountNoneField.value = amount;
+        }
+
+        // Function to calculate end date based on promotion type
+        function calculateEndDate() {
+            const startChargeDateNone = document.getElementById('start_charge_date_none').value;
+            const startDate = new Date(startChargeDateNone);
+            let endDate = new Date(startChargeDateNone);
+
+            if (promotionType.value === "Free Month") {
+                const monthsRenew = parseInt(monthRenewNone.value) || 0;
+                const freeMonths = parseInt(freeMonthNone.value) || 0;
+                endDate.setMonth(endDate.getMonth() + monthsRenew + freeMonths);
+                endDate.setDate(endDate.getDate() - 1);
+                document.getElementById('end_date_none').value = endDate.toISOString().split('T')[0];
+                document.getElementById('endDateGroup').classList.remove('hidden');
+            } else {
+                document.getElementById('endDateGroup').classList.add('hidden');
+            }
+        }
+
+        // Function to format stored data
+        function formatStoredData(data) {
+            let subject = data.option === "With Promotion" ? "With Promotion" : "None Promotion";
+            let result = `<strong>${subject}</strong><br>`;
+            if (data.option === "With Promotion") {
+                result += `Promo.Code: ${data.promotion_code}, Promo.Details: ${data.promotion_details}, Tel: ${data.phone_number}, Start Charge Date: ${data.start_charge_date}, Amount: $${parseFloat(data.amount).toFixed(2)}, Remark: ${data.description}`;
+            } else {
+                result += `Promo.Code: ${data.promotion_code_none}, Month Renew: ${data.month_renew_none}, Type: ${data.promotion_type}, Tel: ${data.phone_number_none}, Start Charge Date: ${data.start_charge_date_none}, Amount: $${parseFloat(data.amount_none).toFixed(2)}, Remark: ${data.description_none}`;
+            }
+            // Add submission date
+            const submissionDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            result += `<div style="font-style: italic; font-size: 10px;">Created on ${submissionDate}</div>`;
+            return result;
+        }
+
+        // Function to handle form submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const formattedData = formatStoredData(data);
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+            resultItem.innerHTML = formattedData;
+            storedDataDiv.appendChild(resultItem);
+        }
+
+        // Function to clear stored data
+        function clearStoredData() {
+            storedDataDiv.innerHTML = '';
+        }
+
+        // Event listener for form submission
+        form.addEventListener('submit', handleFormSubmit);
+
+        // Event listener for clearing stored data
+        clearDataButton.addEventListener('click', clearStoredData);
+
+        // Populate subscription plans on page load
+        populateSubscriptionPlans(product.value, subscription);
+        populateSubscriptionPlans(productNone.value, subscriptionNone);
+        populatePromotionDetails(promotionCode.value);
+
+        // Initialize
+        toggleForms();
+        togglePromotionTypeFields();
+
+        // Event listeners
+        option.addEventListener('change', toggleForms);
+        product.addEventListener('change', () => populateSubscriptionPlans(product.value, subscription));
+        productNone.addEventListener('change', () => populateSubscriptionPlans(productNone.value, subscriptionNone));
+        promotionCode.addEventListener('change', () => populatePromotionDetails(promotionCode.value));
+        promotionType.addEventListener('change', togglePromotionTypeFields);
+        promotionType.addEventListener('change', calculateNonePromotionAmount);
+        monthRenewNone.addEventListener('input', calculateNonePromotionAmount);
+        freeMonthNone.addEventListener('input', calculateNonePromotionAmount);
+        discountDollar.addEventListener('input', calculateNonePromotionAmount);
+        discountPercent.addEventListener('input', calculateNonePromotionAmount);
+        subscription.addEventListener('change', calculateWithPromotionAmount);
+        subscriptionNone.addEventListener('change', calculateNonePromotionAmount);
+        promotionType.addEventListener('change', calculateEndDate);
+        monthRenewNone.addEventListener('input', calculateEndDate);
+        freeMonthNone.addEventListener('input', calculateEndDate);
+        startChargeDate.addEventListener('change', calculateEndDate);
+        startChargeDateNone.addEventListener('change', calculateEndDate);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const submissionDate = new Date().toLocaleDateString();
+            document.getElementById('submissionDate').innerText = submissionDate;
+        });
+    </script>
+</body>
+</html>

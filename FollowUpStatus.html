@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follow Up Status Comparison</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      width: 800px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #e9f7ef;
+      border: 1px solid #5cb85c;
+      border-radius: 4px;
+      margin-right: 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    .tab-button.active {
+      background-color: #5cb85c;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: flex;
+      flex-direction: row;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      margin-right: 20px;
+      width: 200px;
+    }
+    .option {
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .option input {
+      margin-right: 10px;
+    }
+    select {
+      width: 200px;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    select:focus {
+      border-color: #5cb85c;
+    }
+    .result {
+      flex-grow: 1;
+      margin-top: 10px;
+      padding: 15px;
+      background-color: #e9f7ef;
+      border-left: 4px solid #5cb85c;
+      border-radius: 4px;
+      color: #333;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      box-sizing: border-box;
+    }
+    .result-item {
+      margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: calc(100% - 40px);
+      }
+      .tab-content.active {
+        flex-direction: column;
+      }
+      .options, select, .result {
+        width: 100%;
+        margin-right: 0;
+      }
+      .result {
+        margin-top: 10px;
+        max-height: 300px;
+      }
+    }
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      width: 17%;
+    }
+    .back-button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    .back-button:active {
+      background-color: #1f6391;
+      transform: translateY(0);
+    }
+    .back-button svg {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="OSLab.html" class="back-button">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 8H1M1 8L8 1M1 8L8 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to OSLab
+    </a>
+    <h1>Follow Up Status Comparison</h1>
+    <div class="tabs">
+      <button class="tab-button active" onclick="switchTab('radio')">Choice Version</button>
+      <button class="tab-button" onclick="switchTab('dropdown')">Dropdown Version</button>
+    </div>
+
+    <!-- Radio Button Version -->
+    <div id="radio-tab" class="tab-content active">
+      <div class="options">
+        <label class="option">
+          <input type="radio" name="status" value="promise_to_pay" onchange="showResult('radio')"> Promise to Pay
+        </label>
+        <label class="option">
+          <input type="radio" name="status" value="in_progress" onchange="showResult('radio')"> In Progress
+        </label>
+        <label class="option">
+          <input type="radio" name="status" value="not_pickup_call" onchange="showResult('radio')"> Not Pickup Call
+        </label>
+        <label class="option">
+          <input type="radio" name="status" value="unreachable" onchange="showResult('radio')"> Unreachable
+        </label>
+        <label class="option">
+          <input type="radio" name="status" value="credit_note" onchange="showResult('radio')"> Credit Note
+        </label>
+        <label class="option">
+          <input type="radio" name="status" value="provision_debt" onchange="showResult('radio')"> Provision-Debt
+        </label>
+      </div>
+      <div id="radio-result" class="result"></div>
+    </div>
+
+    <!-- Dropdown Version -->
+    <div id="dropdown-tab" class="tab-content">
+      <div class="dropdown-container">
+        <select id="valueDropdown" onchange="showResult('dropdown')">
+          <option value="">--Select an option--</option>
+          <option value="promise_to_pay">Promise to Pay</option>
+          <option value="in_progress">In Progress</option>
+          <option value="not_pickup_call">Not Pickup Call</option>
+          <option value="unreachable">Unreachable</option>
+          <option value="credit_note">Credit Note</option>
+          <option value="provision_debt">Provision-Debt</option>
+        </select>
+      </div>
+      <div id="dropdown-result" class="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      promise_to_pay: [
+        "Customer paid on invoice pending.",
+        "Customer confirmed to pay by Tel - 012456789.",
+        "Customer requested delay payment by Tel - 012456789."
+      ],
+      in_progress: [
+        "Consider to pay because Quality Connections by Tel - 012456789.",
+        "Consider to pay because House rental Tel - 012456789.",
+        "Consider to pay because Budget issues Tel - 012456789.",
+        "Consider to pay because Not the owner Tel - 012456789.",
+        "Consider to pay because Switching service providers Tel - 012456789.",
+        "Consider to pay because Lacking promotions/discount Tel - 012456789."
+      ],
+      not_pickup_call: [
+        "Not Pickup call, Tel - 012456789/0123456789.",
+        "Not Pickup call, done sent SMS reminder to Tel - 0123456789.",
+        "Not Pickup call, done sent SMS/Email reminder to Tel - 0123456789."
+      ],
+      unreachable: [
+        "Unreachable, Tel - 012456789/0123456789.",
+        "Unreachable, done sent SMS reminder to Tel - 0123456789.",
+        "Unreachable, done sent SMS/Email reminder to Tel - 0123456789."
+      ],
+      credit_note: [
+        "Graph Below 170GB - The customer break promise and reject to pay by Tel - 0123456789.",
+        "Graph Below 170GB - The customer not agree pay because of QoC by Tel - 0123456789.",
+        "Graph Below 170GB - The customer not agree pay because of Price Issues by Tel - 0123456789.",
+        "Graph Below 170GB - The customer not agree pay because of Movement by Tel - 0123456789.",
+        "Inv. No Graph - The customer break promise and reject to pay by Tel - 0123456789.",
+        "Inv. No Graph - The customer not agree pay because of QoC by Tel - 0123456789.",
+        "Inv. No Graph - The customer not agree pay because of Price Issues by Tel - 0123456789.",
+        "Inv. No Graph - The customer not agree pay because of Movement by Tel - 0123456789."
+      ],
+      provision_debt: [
+        "Graph Above 170GB - The customer break promise and reject to pay by Tel - 0123456789.",
+        "Graph Above 170GB - The customer not agree pay because of QoC by Tel - 0123456789.",
+        "Graph Above 170GB - The customer not agree pay because of Price Issues by Tel - 0123456789.",
+        "Graph Above 170GB - The customer not agree pay because of Movement by Tel - 0123456789."
+      ]
+    };
+
+    function showResult(version) {
+      const resultId = version === 'radio' ? 'radio-result' : 'dropdown-result';
+      const result = document.getElementById(resultId);
+      let selectedValue;
+
+      if (version === 'radio') {
+        const selectedStatus = document.querySelector('input[name="status"]:checked');
+        selectedValue = selectedStatus ? selectedStatus.value : null;
+      } else {
+        const dropdown = document.getElementById("valueDropdown");
+        selectedValue = dropdown.value;
+      }
+
+      if (selectedValue && data[selectedValue]) {
+        result.innerHTML = data[selectedValue]
+          .map((item) => `<div class="result-item">${item}</div>`)
+          .join("");
+      } else {
+        result.innerHTML = "";
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+      });
+      document.getElementById(`${tab}-tab`).classList.add('active');
+      document.querySelector(`button[onclick="switchTab('${tab}')"]`).classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculation</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 70%;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0.5em 0;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            width: 25%;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #00879E;
+            color: white;
+            height: 25px;
+        }
+        td {
+            height: 20px;
+        }
+        .losing-profit {
+            color: red;
+        }
+        .loss {
+            color: red;
+        }
+        .neutral {
+            color: #042940;
+            font-weight: bold;
+        }
+        .table-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1em;
+        }
+        h2 {
+            margin-bottom: 0.5em;
+            font-size: 1.5em;
+            text-align: left;
+        }
+        .table-container h2 {
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+        }
+        .form-group {
+            display: none;
+        }
+        input[type="number"], input[type="date"], input[type="text"] {
+            width: calc(100% - 24px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                margin: 10px;
+                width: 90%;
+            }
+            .table-container {
+                width: 100%;
+                margin-bottom: 2em;
+            }
+            table {
+                display: none;
+            }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1em;
+                width: 100%;
+            }
+            .form-group label {
+                margin-bottom: 0.5em;
+                font-weight: regular;
+                font-size: 15px;
+            }
+            .form-group input {
+                padding: 0.5em;
+                font-size: 1em;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-bottom: 1em;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .result {
+                margin-top: 0;
+                font-size: 16px;
+                font-weight: bold;
+                color: #333;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 10px;
+                width: 90%;
+            }
+            .table-container {
+                width: 100%;
+                margin-bottom: 2em;
+            }
+            table {
+                display: none;
+            }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1em;
+                width: 100%;
+            }
+            .form-group label {
+                margin-bottom: 0.5em;
+                font-weight: regular;
+                font-size: 15px;
+            }
+            .form-group input {
+                padding: 0.5em;
+                font-size: 1em;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-bottom: 1em;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .result {
+                margin-top: 0;
+                font-size: 1em;
+                font-weight: bold;
+                color: #333;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+        .positive-result {
+            color: #00879E;
+            font-weight: bold;
+        }
+        .negative-result {
+            color: red;
+            font-weight: bold;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            margin: 20px 0;
+        }
+
+        .back-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .back-button:active {
+            background-color: #1f6391;
+            transform: translateY(0);
+        }
+
+        .back-button svg {
+            margin-right: 8px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .logo {
+            color: #ecf0f1;
+        }
+    </style>
+    <script>
+        function calculateDiscount() {
+            const originalPrice = parseFloat(document.getElementById('originalPrice').value || document.getElementById('mobileOriginalPrice').value);
+            const discountPercent = parseFloat(document.getElementById('discountPercent').value || document.getElementById('mobileDiscountPercent').value);
+            if (isNaN(originalPrice) || isNaN(discountPercent)) {
+                return;
+            }
+            const discountAmount = originalPrice * (discountPercent / 100);
+            const resultAfterDiscount = originalPrice - discountAmount;
+            const losingProfit = originalPrice - resultAfterDiscount;
+
+            document.getElementById('resultAfterDiscount').innerText = `$${resultAfterDiscount.toFixed(2)}`;
+            document.getElementById('mobileResultAfterDiscount').innerText = `$${resultAfterDiscount.toFixed(2)}`;
+            const losingProfitElement = document.getElementById('losingProfit');
+            const mobileLosingProfitElement = document.getElementById('mobileLosingProfit');
+            if (losingProfit === 0) {
+                losingProfitElement.innerText = `$${losingProfit.toFixed(2)}`;
+                mobileLosingProfitElement.innerText = `$${losingProfit.toFixed(2)}`;
+                losingProfitElement.className = 'neutral';
+                mobileLosingProfitElement.className = 'neutral';
+            } else {
+                losingProfitElement.innerText = `${losingProfit < originalPrice ? '-' : '+'}$${Math.abs(losingProfit).toFixed(2)}`;
+                mobileLosingProfitElement.innerText = `${losingProfit < originalPrice ? '-' : '+'}$${Math.abs(losingProfit).toFixed(2)}`;
+                losingProfitElement.className = losingProfit < originalPrice ? 'loss' : 'profit';
+                mobileLosingProfitElement.className = losingProfit < originalPrice ? 'loss' : 'profit';
+            }
+        }
+
+        function calculateDiscount2() {
+            const originalPrice = parseFloat(document.getElementById('originalPrice2').value || document.getElementById('mobileOriginalPrice2').value);
+            const priceAfterDiscount = parseFloat(document.getElementById('priceAfterDiscount').value || document.getElementById('mobilePriceAfterDiscount').value);
+            if (isNaN(originalPrice) || isNaN(priceAfterDiscount)) {
+                return;
+            }
+            const discountPercent = (1 - (priceAfterDiscount / originalPrice)) * 100;
+            const losingProfit = originalPrice - priceAfterDiscount;
+
+            const resultOfDiscountElement = document.getElementById('resultOfDiscount');
+            const mobileResultOfDiscountElement = document.getElementById('mobileResultOfDiscount');
+            const losingProfitElement = document.getElementById('losingProfit2');
+            const mobileLosingProfitElement = document.getElementById('mobileLosingProfit2');
+
+            resultOfDiscountElement.innerText = `${discountPercent.toFixed(2)}%`;
+            mobileResultOfDiscountElement.innerText = `${discountPercent.toFixed(2)}%`;
+            losingProfitElement.innerText = `${discountPercent > 0 ? '↑' : '↓'}$${Math.abs(losingProfit).toFixed(2)}`;
+            mobileLosingProfitElement.innerText = `${discountPercent > 0 ? '↑' : '↓'}$${Math.abs(losingProfit).toFixed(2)}`;
+
+            if (discountPercent > 0) {
+                resultOfDiscountElement.className = 'positive-result';
+                mobileResultOfDiscountElement.className = 'positive-result';
+                losingProfitElement.className = 'positive-result';
+                mobileLosingProfitElement.className = 'positive-result';
+            } else {
+                resultOfDiscountElement.className = 'negative-result';
+                mobileResultOfDiscountElement.className = 'negative-result';
+                losingProfitElement.className = 'negative-result';
+                mobileLosingProfitElement.className = 'negative-result';
+            }
+        }
+
+        function formatDate(date) {
+            const day = date.getDate().toString().padStart(2, '0');
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const month = monthNames[date.getMonth()];
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        function calculateEndDate() {
+            const startChargeDate = document.getElementById('startChargeDate').value || document.getElementById('mobileStartChargeDate').value;
+            const monthRenew = parseInt(document.getElementById('monthRenew').value || document.getElementById('mobileMonthRenew').value);
+            const freeMonth = parseInt(document.getElementById('freeMonth').value || document.getElementById('mobileFreeMonth').value);
+
+            if (!startChargeDate || isNaN(monthRenew) || isNaN(freeMonth)) {
+                return;
+            }
+
+            const startDate = new Date(startChargeDate);
+            const totalMonths = monthRenew + freeMonth;
+            startDate.setMonth(startDate.getMonth() + totalMonths);
+            startDate.setDate(startDate.getDate() - 1);
+
+            const endDate = formatDate(startDate);
+            document.getElementById('endDate').value = endDate;
+            document.getElementById('mobileEndDate').value = endDate;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileOriginalPrice = document.getElementById('mobileOriginalPrice');
+            const mobileDiscountPercent = document.getElementById('mobileDiscountPercent');
+            const mobileOriginalPrice2 = document.getElementById('mobileOriginalPrice2');
+            const mobilePriceAfterDiscount = document.getElementById('mobilePriceAfterDiscount');
+            const startChargeDate = document.getElementById('startChargeDate');
+            const monthRenew = document.getElementById('monthRenew');
+            const freeMonth = document.getElementById('freeMonth');
+
+            if (mobileOriginalPrice && mobileDiscountPercent) {
+                mobileOriginalPrice.addEventListener('input', function() {
+                    document.getElementById('originalPrice').value = mobileOriginalPrice.value;
+                    calculateDiscount();
+                });
+                mobileDiscountPercent.addEventListener('input', function() {
+                    document.getElementById('discountPercent').value = mobileDiscountPercent.value;
+                    calculateDiscount();
+                });
+            }
+
+            if (mobileOriginalPrice2 && mobilePriceAfterDiscount) {
+                mobileOriginalPrice2.addEventListener('input', function() {
+                    document.getElementById('originalPrice2').value = mobileOriginalPrice2.value;
+                    calculateDiscount2();
+                });
+                mobilePriceAfterDiscount.addEventListener('input', function() {
+                    document.getElementById('priceAfterDiscount').value = mobilePriceAfterDiscount.value;
+                    calculateDiscount2();
+                });
+            }
+
+            if (startChargeDate && monthRenew && freeMonth) {
+                startChargeDate.addEventListener('input', calculateEndDate);
+                monthRenew.addEventListener('input', calculateEndDate);
+                freeMonth.addEventListener('input', calculateEndDate);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo" onclick="window.location.href='OSLab.html'">OSLab</div>
+        <header>
+            <h1>Calculation</h1>
+        </header>
+        <div class="table-container">
+            <h2>Find Result After Discount</h2>
+            <table>
+                <tr>
+                    <th>Original Price<br>ថ្លៃដើម</th>
+                    <th>Discount (%)​<br>បញ្ចុះភាគរយ</th>
+                    <th>Result After Discount<br>លទ្ធផលបន្ទាប់ពីការបញ្ចុះភាគរយ</th>
+                    <th>Loss/Gain Profit</th>
+                </tr>
+                <tr>
+                    <td data-label="Original Price"><input type="number" id="originalPrice" oninput="calculateDiscount()" placeholder="$"></td>
+                    <td data-label="Discount (%)"><input type="number" id="discountPercent" oninput="calculateDiscount()" placeholder="%"></td>
+                    <td data-label="Result After Disc." id="resultAfterDiscount">$0.00</td>
+                    <td data-label="Loss/Gain Profit" id="losingProfit" class="profit">$0.00</td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <label for="mobileOriginalPrice">Original Price <br> ថ្លៃដើម</label>
+                <input type="number" id="mobileOriginalPrice" placeholder="$" oninput="calculateDiscount()">
+                <label for="mobileDiscountPercent">Discount (%) <br> បញ្ចុះភាគរយ</label>
+                <input type="number" id="mobileDiscountPercent" placeholder="%" oninput="calculateDiscount()">
+                <div class="result">
+                    <p>Result After Discount: <br>លទ្ធផលបន្ទាប់ពីការបញ្ចុះភាគរយ: <span id="mobileResultAfterDiscount">$0.00</span></p>
+                    <p>Loss/Gain Profit: <span id="mobileLosingProfit" class="profit">$0.00</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <h2>Find Result Discount (%)</h2>
+            <table>
+                <tr>
+                    <th>Original Price<br>ថ្លៃដើម</th>
+                    <th>Price after discount​<br>តម្លៃលក់ចេញ</th>
+                    <th>Result Discount (%)<br>លទ្ធផលការបញ្ចុះភាគរយ</th>
+                    <th>Loss/Gain Profit</th>
+                </tr>
+                <tr>
+                    <td data-label="Original Price"><input type="number" id="originalPrice2" oninput="calculateDiscount2()" placeholder="$"></td>
+                    <td data-label="Price After Discount"><input type="number" id="priceAfterDiscount" oninput="calculateDiscount2()" placeholder="$"></td>
+                    <td data-label="Result of Discount (%)" id="resultOfDiscount">%0</td>
+                    <td data-label="Loss/Gain Profit" id="losingProfit2" class="profit">$0.00</td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <label for="mobileOriginalPrice2">Original Price <br> ថ្លៃដើម</label>
+                <input type="number" id="mobileOriginalPrice2" placeholder="$" oninput="calculateDiscount2()">
+                <label for="mobilePriceAfterDiscount">Price After Discount<br>តម្លៃបន្ទាប់ពីការបញ្ចុះភាគរយ:</label>
+                <input type="number" id="mobilePriceAfterDiscount" placeholder="$" oninput="calculateDiscount2()">
+                <div class="result">
+                    <p>Result of Discount: <br>លទ្ធផលបន្ទាប់ពីការបញ្ចុះភាគរយ:<span id="mobileResultOfDiscount">$0.00</span></p>
+                    <p>Loss/Gain Profit: <span id="mobileLosingProfit2" class="profit">$0.00</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <h2>Start Charge Date</h2>
+            <table>
+                <tr>
+                    <th>Start Charge Date<br>ថ្ងៃចាប់ផ្តើមគិតថ្លៃ</th>
+                    <th>End Date/Expiry Date<br>ថ្ងៃផុតកំណត់</th>
+                    <th>Month Renew<br>ខែបន្ត</th>
+                    <th>Free Month<br>ខែមិនគិតថ្លៃ</th>
+                </tr>
+                <tr>
+                    <td data-label="Start Charge Date"><input type="date" id="startChargeDate" oninput="calculateEndDate()"></td>
+                    <td data-label="End Date/Expiry Date"><input type="text" id="endDate" readonly></td>
+                    <td data-label="Month Renew"><input type="number" id="monthRenew" placeholder="Months" oninput="calculateEndDate()"></td>
+                    <td data-label="Free Month"><input type="number" id="freeMonth" placeholder="Months" oninput="calculateEndDate()"></td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <label for="mobileStartChargeDate">Start Charge Date <br> ថ្ងៃចាប់ផ្តើមគិតថ្លៃ</label>
+                <input type="date" id="mobileStartChargeDate" oninput="calculateEndDate()">
+                <label for="mobileEndDate">End Date/Expiry Date <br> ថ្ងៃផុតកំណត់</label>
+                <input type="text" id="mobileEndDate" readonly>
+                <label for="mobileMonthRenew">Month Renew <br> ខែបន្ត</label>
+                <input type="number" id="mobileMonthRenew" placeholder="Months" oninput="calculateEndDate()">
+                <label for="mobileFreeMonth">Free Month <br> ខែមិនគិតថ្លៃ</label>
+                <input type="number" id="mobileFreeMonth" placeholder="Months" oninput="calculateEndDate()">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

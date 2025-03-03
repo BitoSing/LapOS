@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Reminder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .form-container, .data-container {
+            flex: 1 1 100%;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="email"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="email"]:focus, textarea:focus, select:focus {
+            border-color: #5cb85c;
+        }
+        input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: center; /* Ensure buttons are vertically aligned */
+        }
+        .button-container button, .button-container .back-button {
+            padding: 12px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            flex: 1 1 auto;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .button-container button:hover, .button-container .back-button:hover {
+            background-color: #4cae4c;
+        }
+        .button-container button:nth-child(2) {
+            background-color: red;
+        }
+        .button-container button:nth-child(2):hover {
+            background-color: darkred;
+        }
+        .button-container .back-button {
+            background-color: #3498db;
+        }
+        .button-container .back-button:hover {
+            background-color: #2980b9;
+        }
+        .button-container .back-button svg {
+            margin-right: 8px;
+        }
+        .data-item {
+            background-color: #e9f7ef;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #5cb85c;
+            border-radius: 4px;
+            font-family: Calibri, sans-serif;
+            font-size: 14px;
+        }
+        .required-text {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+        .submission-info {
+            font-style: italic;
+            font-size: 10px;
+            font-family: Calibri, sans-serif;
+        }
+        @media (min-width: 768px) {
+            .form-container, .data-container {
+                flex: 1;
+                margin-bottom: 0;
+            }
+            .button-container button, .button-container .back-button {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-group">
+                <label for="businessEntities">Business Entities:</label>
+                <select id="businessEntities" name="businessEntities" onchange="updateMessageType()" required>
+                    <option value="EZECOM">EZECOM</option>
+                    <option value="Cellcard">Cellcard</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="messageType">Message Type:</label>
+                <select id="messageType" name="messageType" required>
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Email send to:</label>
+                <input type="email" id="email" name="email" multiple required placeholder="example@gmail.com">
+                <span id="emailRequiredText" class="required-text">*Required</span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="confirmSend()">Send</button>
+                <button type="button" onclick="clearData()">Clear Data</button>
+                <a href="OSLab.html" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 8H1M1 8L8 1M1 8L8 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back to OSLab
+                </a>
+            </div>
+        </div>
+        <div class="data-container" id="dataContainer">
+            <!-- Stored data will appear here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMessageType(); // Initialize the message type dropdown on page load
+        });
+
+        async function confirmSend() {
+            const email = document.getElementById('email').value;
+            const emailRequiredText = document.getElementById('emailRequiredText');
+            
+            if (!email) {
+                emailRequiredText.style.display = 'inline';
+                return;
+            } else {
+                emailRequiredText.style.display = 'none';
+            }
+
+            const businessEntities = document.getElementById('businessEntities').value;
+            const messageType = document.getElementById('messageType').value;
+            let message = '';
+
+            if (businessEntities === "EZECOM" && messageType === "Eze - Email Termination") {
+                message = await fetchMessageFromDocx('http://localhost:8000/Message%20Reminder/Eze-Termination.Docx');
+                message = formatTerminationMessage("EZECOM", "085 888 181, 023 888 181", message);
+            } else if (businessEntities === "Cellcard" && messageType === "CC - Email Termination") {
+                message = formatTerminationMessage("Cellcard", "012 812 812", messageType);
+            } else {
+                message = messageType;
+            }
+
+            storeData(email, message);
+        }
+
+        async function fetchMessageFromDocx(filePath) {
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                const doc = new window.docxtemplater(new window.PizZip(arrayBuffer));
+                return doc.getFullText();
+            } catch (error) {
+                console.error('Error fetching message from docx:', error);
+                return `Error fetching message: ${error.message}`;
+            }
+        }
+
+        function formatTerminationMessage(company, contactNumber, message) {
+            return `
+                Subject: ${company} - Request Termination form, For Customer CID: 220964, Name: Mr. Namhong Ek
+                <br>Dear Valuable Customer, 
+                <br>We hope this email finds you well,
+                <br>We feel disappointed to hear that you have decided to part ways with ${company}. We understand that you have been a valued customer for many years, and we appreciate your loyalty and good cooperation. 
+                <br>According to our service agreement, customer is required to notice termination to ${company} at least 30 days'. This means that your subscription will be terminated following your next billing date.
+                <br>To be official notice, please kindly help to complete the termination form per attached file with Sign & Stamp and submit it back to ${company} via this email or drop by the nearby ${company}’s office.
+                <br>${company} wishes to have loyalty and good cooperation customer as you again in furthermore.
+                <br>Note: Any decision was changed or reactivate your account back, you can contact directly to our Hotline by: 
+                <br>Contact Number      : ${contactNumber} 
+                <br>Thanks, and regarding,
+                <br>${company}
+            `;
+        }
+
+        function storeData(email, message) {
+            const dataContainer = document.getElementById('dataContainer');
+            const dataItem = document.createElement('div');
+            dataItem.className = 'data-item';
+
+            const now = new Date();
+            const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+            const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+            const formattedDate = now.toLocaleDateString('en-GB', dateOptions);
+            const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
+
+            dataItem.innerHTML = `<strong>To:</strong> ${email}<br><span class="submission-info"><strong>Sent on:</strong> ${formattedDate}, ${formattedTime}</span><br><strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}`;
+            dataContainer.appendChild(dataItem);
+        }
+
+        function clearData() {
+            const dataContainer = document.getElementById('dataContainer');
+            dataContainer.innerHTML = ''; // Clear all stored data
+        }
+
+        function updateMessageType() {
+            const businessEntities = document.getElementById('businessEntities').value;
+            const messageType = document.getElementById('messageType');
+            messageType.innerHTML = ''; // Clear existing options
+
+            let options = [];
+            if (businessEntities === 'EZECOM') {
+                options = [
+                    'Eze - SMS Reminder',
+                    'Eze - Email Reminder',
+                    'Eze - Email Termination'
+                ];
+            } else if (businessEntities === 'Cellcard') {
+                options = [
+                    'CC - SMS Reminder',
+                    'CC - Email Reminder',
+                    'CC - Email Termination'
+                ];
+            }
+
+            options.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                messageType.appendChild(opt);
+            });
+
+            // Set the first option as selected
+            if (options.length > 0) {
+                messageType.value = options[0];
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.0.5/pizzip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
+</body>
+</html>
