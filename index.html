@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A professional webpage with a clean layout, dark mode, and language selection.">
     <title>Professional Webpage</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -14,105 +16,198 @@
             align-items: center;
             background-color: #f4f4f4;
             color: #333;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            justify-content: space-between;
         }
 
         body.dark-mode {
-            background-color: #333;
+            background-color: #1e1e1e;
             color: #f4f4f4;
         }
 
+        /* Header */
         header {
             width: 100%;
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px 15px 20px; /* Add padding to the right */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
-            margin-left: 20px; /* Added margin */
+            color: #ecf0f1;
+            margin-left: 20px;
         }
 
         .header-buttons {
             display: flex;
             gap: 10px;
             align-items: center;
-            margin-right: 20px; /* Added margin */
+            margin-right: 20px; /* Add margin to the right */
         }
 
         .header-buttons select,
         .header-buttons button {
-            background-color: #555;
+            background-color: #34495e;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 10px 15px;
             cursor: pointer;
             font-size: 16px;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
         .header-buttons select:hover,
         .header-buttons button:hover {
-            background-color: #777;
+            background-color: #4a6a8d;
         }
 
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Main Content */
         main {
-            width: 80%;
+            width: 90%;
             max-width: 1200px;
             margin: 20px 0;
             padding: 20px;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            flex: 1;
         }
 
         body.dark-mode main {
-            background-color: #444;
-            color: #f4f4f4;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
+        /* Buttons Section */
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
         .buttons button {
-            background-color: #555;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             cursor: pointer;
             font-size: 16px;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
         .buttons button:hover {
-            background-color: #777;
+            background-color: #2980b9;
         }
 
+        /* Description Section */
         .description {
             text-align: center;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
+        body.dark-mode .description {
+            background-color: #34495e;
+        }
+
+        .description h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .description h1 {
+            color: #ecf0f1;
+        }
+
+        .description p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        body.dark-mode .description p {
+            color: #ecf0f1;
+        }
+
+        /* Footer */
         footer {
             width: 100%;
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
-            position: fixed;
-            bottom: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode footer {
-            background-color: #222;
+            background-color: #1e1e1e;
+            transition: background-color 0.5s ease;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -126,9 +221,9 @@
             }
 
             main {
-                width: 90%;
+                width: 95%;
                 margin: 10px 0;
-                padding: 10px;
+                padding: 15px;
             }
 
             .buttons button {
@@ -145,15 +240,24 @@
             .header-buttons select,
             .header-buttons button {
                 font-size: 14px;
-                padding: 8px;
+                padding: 8px 12px;
             }
 
             .buttons button {
                 font-size: 14px;
-                padding: 8px;
+                padding: 10px 20px;
+            }
+
+            .description h1 {
+                font-size: 24px;
+            }
+
+            .description p {
+                font-size: 16px;
             }
         }
 
+        /* Accessibility */
         .visually-hidden {
             position: absolute;
             width: 1px;
@@ -164,18 +268,49 @@
             clip: rect(0, 0, 0, 0);
             border: 0;
         }
+
+        .language-select-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .language-select-container label {
+            font-size: 16px;
+            color: white;
+        }
+
+        .language-select-container select {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .language-select-container select:hover {
+            background-color: #4a6a8d;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">Logo</div>
         <nav class="header-buttons">
-            <label for="languageSelect" class="visually-hidden">Select Language</label>
-            <select id="languageSelect" title="Select Language">
-                <option value="en">English</option>
-                <option value="km">Khmer</option>
-            </select>
-            <button id="toggleDarkMode" title="Toggle Dark Mode">🌙</button>
+            <div class="language-select-container">
+                <label for="languageSelect">Select Language:</label>
+                <select id="languageSelect" title="Select Language">
+                    <option value="en">English</option>
+                    <option value="km">Khmer</option>
+                </select>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+            </label>
         </nav>
     </header>
     <main>
@@ -222,18 +357,11 @@
         });
 
         // Dark Mode Toggle
-        const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+        const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
 
-        toggleDarkModeButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                toggleDarkModeButton.textContent = '☀️';
-                toggleDarkModeButton.setAttribute('title', 'Enable Light Mode');
-            } else {
-                toggleDarkModeButton.textContent = '🌙';
-                toggleDarkModeButton.setAttribute('title', 'Enable Dark Mode');
-            }
+        darkModeToggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode', darkModeToggle.checked);
         });
     </script>
 </body>
