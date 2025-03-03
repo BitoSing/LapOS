@@ -39,8 +39,10 @@
         .header-buttons {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
+        .header-buttons select,
         .header-buttons button {
             background-color: #555;
             color: white;
@@ -48,11 +50,10 @@
             padding: 10px;
             cursor: pointer;
             font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 5px;
         }
 
+        .header-buttons select:hover,
         .header-buttons button:hover {
             background-color: #777;
         }
@@ -85,6 +86,7 @@
             padding: 10px 20px;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 5px;
         }
 
         .buttons button:hover {
@@ -114,7 +116,10 @@
     <header>
         <div class="logo">Logo</div>
         <div class="header-buttons">
-            <button id="changeLanguage" title="Change Language">🌐</button>
+            <select id="languageSelect" title="Select Language">
+                <option value="en">English</option>
+                <option value="km">Khmer</option>
+            </select>
             <button id="toggleDarkMode" title="Toggle Dark Mode">🌙</button>
         </div>
     </header>
@@ -137,7 +142,7 @@
 
     <script>
         // Language Translation
-        const languageButton = document.getElementById('changeLanguage');
+        const languageSelect = document.getElementById('languageSelect');
         const descriptionTitle = document.getElementById('descriptionTitle');
         const descriptionText = document.getElementById('descriptionText');
         const footerText = document.getElementById('footerText');
@@ -155,13 +160,11 @@
             }
         };
 
-        let currentLanguage = 'en';
-
-        languageButton.addEventListener('click', () => {
-            currentLanguage = currentLanguage === 'en' ? 'km' : 'en';
-            descriptionTitle.textContent = translations[currentLanguage].title;
-            descriptionText.textContent = translations[currentLanguage].description;
-            footerText.innerHTML = translations[currentLanguage].footer;
+        languageSelect.addEventListener('change', () => {
+            const selectedLanguage = languageSelect.value;
+            descriptionTitle.textContent = translations[selectedLanguage].title;
+            descriptionText.textContent = translations[selectedLanguage].description;
+            footerText.innerHTML = translations[selectedLanguage].footer;
         });
 
         // Dark Mode Toggle
